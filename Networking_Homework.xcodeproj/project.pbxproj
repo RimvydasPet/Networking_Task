@@ -13,6 +13,12 @@
 		BD60043D2AC32F00008011D1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD60043B2AC32F00008011D1 /* Main.storyboard */; };
 		BD60043F2AC32F14008011D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD60043E2AC32F14008011D1 /* Assets.xcassets */; };
 		BD6004422AC32F14008011D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD6004402AC32F14008011D1 /* LaunchScreen.storyboard */; };
+		BD60044D2AC32F72008011D1 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD60044C2AC32F72008011D1 /* Networking.swift */; };
+		BD6004502AC330F9008011D1 /* PostsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD60044F2AC330F9008011D1 /* PostsData.swift */; };
+		BDB249F42AC9D37B004E24F0 /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB249F32AC9D37B004E24F0 /* EndPoints.swift */; };
+		BDB249F62AC9D3FF004E24F0 /* LoadableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB249F52AC9D3FF004E24F0 /* LoadableViewController.swift */; };
+		BDE9AEFE2AC331AE00EBD442 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE9AEFC2AC331AE00EBD442 /* PostTableViewCell.swift */; };
+		BDE9AEFF2AC331AE00EBD442 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDE9AEFD2AC331AE00EBD442 /* PostTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +30,12 @@
 		BD60043E2AC32F14008011D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BD6004412AC32F14008011D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BD6004432AC32F14008011D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BD60044C2AC32F72008011D1 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		BD60044F2AC330F9008011D1 /* PostsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsData.swift; sourceTree = "<group>"; };
+		BDB249F32AC9D37B004E24F0 /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
+		BDB249F52AC9D3FF004E24F0 /* LoadableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableViewController.swift; sourceTree = "<group>"; };
+		BDE9AEFC2AC331AE00EBD442 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		BDE9AEFD2AC331AE00EBD442 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +68,69 @@
 		BD6004342AC32F00008011D1 /* Networking_Homework */ = {
 			isa = PBXGroup;
 			children = (
-				BD6004352AC32F00008011D1 /* AppDelegate.swift */,
-				BD6004372AC32F00008011D1 /* SceneDelegate.swift */,
-				BD6004392AC32F00008011D1 /* ViewController.swift */,
-				BD60043B2AC32F00008011D1 /* Main.storyboard */,
+				BD60044A2AC32F51008011D1 /* Delegates */,
+				BD60044E2AC330DE008011D1 /* Data */,
+				BD60044B2AC32F5F008011D1 /* Networking */,
+				BDE9AEFB2AC3317C00EBD442 /* Views */,
+				BD6004492AC32F47008011D1 /* Controllers */,
 				BD60043E2AC32F14008011D1 /* Assets.xcassets */,
 				BD6004402AC32F14008011D1 /* LaunchScreen.storyboard */,
 				BD6004432AC32F14008011D1 /* Info.plist */,
+				BDB249F52AC9D3FF004E24F0 /* LoadableViewController.swift */,
 			);
 			path = Networking_Homework;
+			sourceTree = "<group>";
+		};
+		BD6004492AC32F47008011D1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BDE9AF052AC33B5900EBD442 /* Main */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BD60044A2AC32F51008011D1 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				BD6004352AC32F00008011D1 /* AppDelegate.swift */,
+				BD6004372AC32F00008011D1 /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		BD60044B2AC32F5F008011D1 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				BD60044C2AC32F72008011D1 /* Networking.swift */,
+				BDB249F32AC9D37B004E24F0 /* EndPoints.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		BD60044E2AC330DE008011D1 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				BD60044F2AC330F9008011D1 /* PostsData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		BDE9AEFB2AC3317C00EBD442 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BDE9AEFC2AC331AE00EBD442 /* PostTableViewCell.swift */,
+				BDE9AEFD2AC331AE00EBD442 /* PostTableViewCell.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BDE9AF052AC33B5900EBD442 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				BD6004392AC32F00008011D1 /* ViewController.swift */,
+				BD60043B2AC32F00008011D1 /* Main.storyboard */,
+			);
+			path = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +194,7 @@
 				BD6004422AC32F14008011D1 /* LaunchScreen.storyboard in Resources */,
 				BD60043F2AC32F14008011D1 /* Assets.xcassets in Resources */,
 				BD60043D2AC32F00008011D1 /* Main.storyboard in Resources */,
+				BDE9AEFF2AC331AE00EBD442 /* PostTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,9 +205,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD6004502AC330F9008011D1 /* PostsData.swift in Sources */,
 				BD60043A2AC32F00008011D1 /* ViewController.swift in Sources */,
 				BD6004362AC32F00008011D1 /* AppDelegate.swift in Sources */,
 				BD6004382AC32F00008011D1 /* SceneDelegate.swift in Sources */,
+				BD60044D2AC32F72008011D1 /* Networking.swift in Sources */,
+				BDB249F42AC9D37B004E24F0 /* EndPoints.swift in Sources */,
+				BDE9AEFE2AC331AE00EBD442 /* PostTableViewCell.swift in Sources */,
+				BDB249F62AC9D3FF004E24F0 /* LoadableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
