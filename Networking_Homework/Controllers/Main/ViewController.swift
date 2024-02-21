@@ -9,9 +9,8 @@ import UIKit
 
 class ViewController: LoadableViewController {
     
-    //    class PostsViewController
-    
     private var posts: [Posts] = []
+    var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var postTableView: UITableView!
     
@@ -19,8 +18,18 @@ class ViewController: LoadableViewController {
         super.viewDidLoad()
         setupTableView()
         loadData()
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
+        postTableView.addSubview(refreshControl)
     }
+
     
+    @objc func handleRefreshControl(_ send: UIRefreshControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.postTableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
+    }
+
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
