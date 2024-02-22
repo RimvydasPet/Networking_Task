@@ -8,6 +8,6 @@
 import Foundation
 
 struct EndPoints {
-    static let mainUrlString = "https://jsonplaceholder.typicode.com/posts"
-    static let endpoint = mainUrlString + ""
+    static let mainUrlString = "https://jsonplaceholder.typicode.com"
+    static let endpoint = mainUrlString + "/posts"
 }

@@ -21,37 +21,58 @@ class ViewController: LoadableViewController {
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
     }
-
+    
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
-            self.postTableView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+//            self.loadData()
             self.refreshControl.endRefreshing()
+            self.loadData()
         }
     }
-
+    
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         postTableView?.register(nib, forCellReuseIdentifier: "PostTableViewCell")
     }
     
-    private func loadData() {
+    func showAlert(errorMessage: String) {
+        let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
+        let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
+            self.tryAgain()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(tryAgainAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func loadData() {
         startLoading()
         let url = EndPoints.endpoint
         Networking<[Posts]>.loadData(urlString: url, completion: { result in
-            switch result {
-            case .success(let allData):
-                self.posts = allData
-                DispatchQueue.main.async {
-                    self.postTableView.reloadData()
-                    self.stopLoading()
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let allData):
+                    self.posts = allData
+                    DispatchQueue.main.async {
+                        self.postTableView.reloadData()
+                        self.stopLoading()
+                    }
+                case .failure(let apiError):
+                    self.showAlert(errorMessage: apiError.localizedDescription)
                 }
-            case .failure(let apiError):
-                print(apiError.localizedDescription)
             }
         })
     }
+    func tryAgain() {
+        loadData()
+    }
+    
 }
 
 //MARK: - Extensions
