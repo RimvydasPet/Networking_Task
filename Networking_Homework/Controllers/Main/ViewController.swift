@@ -8,8 +8,16 @@
 import UIKit
 
 class ViewController: LoadableViewController {
-    
+    //from API
     private var posts: [Posts] = []
+    //Created by my self
+    var savedPosts: [PostsCoreData]?
+    //For Core Data
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    
     var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var postTableView: UITableView!
@@ -20,14 +28,17 @@ class ViewController: LoadableViewController {
         loadData()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
+        
     }
-    
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-//            self.loadData()
-            self.refreshControl.endRefreshing()
             self.loadData()
+            //            self.postTableView.reloadData()
+            self.stopLoading()
+            self.postTableView.reloadData()
+            self.refreshControl.endRefreshing()
+            
         }
     }
     
@@ -40,58 +51,82 @@ class ViewController: LoadableViewController {
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
-            self.tryAgain()
+            self.loadData()
+            self.postTableView.reloadData()
+            self.stopLoading()
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+            // need to implement how to show initial values after cancel. Idea to load from SwiftData
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
+        }
+        
         alertController.addAction(tryAgainAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
     
-    
+    func fetchPosts() {
+        
+        do {
+            self.savedPosts = try context.fetch(PostsCoreData.fetchRequest())
+            DispatchQueue.main.async {
+                self.postTableView.reloadData()
+            }
+        }
+        catch {
+            
+        }
+    }
     
     func loadData() {
         startLoading()
         let url = EndPoints.endpoint
         Networking<[Posts]>.loadData(urlString: url, completion: { result in
             DispatchQueue.main.async {
-                switch result {
-                case .success(let allData):
-                    self.posts = allData
-                    DispatchQueue.main.async {
+                do {
+                    switch result {
+                    case .success(let allData):
+//                        self.posts = allData
+                        self.savedPosts = try self.context.fetch(PostsCoreData.fetchRequest())
+                        do {
+                            try self.context.save()
+                        }
+                        catch {
+                            
+                        }
                         self.postTableView.reloadData()
                         self.stopLoading()
+                    case .failure(let apiError):
+                        self.showAlert(errorMessage: apiError.localizedDescription)
                     }
-                case .failure(let apiError):
-                    self.showAlert(errorMessage: apiError.localizedDescription)
+                } catch {
+                    // Handle the error here, if needed
+                    print("Error: \(error)")
                 }
             }
         })
     }
-    func tryAgain() {
-        loadData()
-    }
-    
 }
-
-//MARK: - Extensions
-extension ViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
-        if let cell = cell as? PostTableViewCell {
-            cell.setupText(userId: "userId: \(posts[indexPath.row].userId)",
-                           id: "id: \(posts[indexPath.row].id)",
-                           title: "title: \(posts[indexPath.row].title)",
-                           body: "\(posts[indexPath.row].body)")
-            return cell
-        } else {
-            return cell
+    //MARK: - Extensions
+    extension ViewController: UITableViewDataSource {
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return posts.count
         }
         
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
+            if let cell = cell as? PostTableViewCell {
+                cell.setupText(userId: "userId: \(savedPosts![indexPath.row].userId)",
+                               id: "id: \(savedPosts![indexPath.row].id)",
+                               title: "title: \(savedPosts![indexPath.row].title)",
+                               body: "\(savedPosts![indexPath.row].body)")
+                return cell
+            } else {
+                return cell
+            }
+            
+        }
     }
-}

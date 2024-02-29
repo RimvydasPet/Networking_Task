@@ -15,8 +15,11 @@
 		BD6004422AC32F14008011D1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BD6004402AC32F14008011D1 /* LaunchScreen.storyboard */; };
 		BD60044D2AC32F72008011D1 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD60044C2AC32F72008011D1 /* Networking.swift */; };
 		BD6004502AC330F9008011D1 /* PostsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD60044F2AC330F9008011D1 /* PostsData.swift */; };
+		BD7A81C22B8B8E0800E1566B /* LoadableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7A81C12B8B8E0800E1566B /* LoadableViewController.swift */; };
 		BDB249F42AC9D37B004E24F0 /* EndPoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB249F32AC9D37B004E24F0 /* EndPoints.swift */; };
-		BDB249F62AC9D3FF004E24F0 /* LoadableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB249F52AC9D3FF004E24F0 /* LoadableViewController.swift */; };
+		BDB54A5A2B90ED5A0084D40D /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BDB54A582B90ED5A0084D40D /* Model.xcdatamodeld */; };
+		BDB54A622B90F0290084D40D /* PostsCoreData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB54A602B90F0290084D40D /* PostsCoreData+CoreDataClass.swift */; };
+		BDB54A632B90F0290084D40D /* PostsCoreData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDB54A612B90F0290084D40D /* PostsCoreData+CoreDataProperties.swift */; };
 		BDE9AEFE2AC331AE00EBD442 /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDE9AEFC2AC331AE00EBD442 /* PostTableViewCell.swift */; };
 		BDE9AEFF2AC331AE00EBD442 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BDE9AEFD2AC331AE00EBD442 /* PostTableViewCell.xib */; };
 /* End PBXBuildFile section */
@@ -32,8 +35,11 @@
 		BD6004432AC32F14008011D1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BD60044C2AC32F72008011D1 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		BD60044F2AC330F9008011D1 /* PostsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsData.swift; sourceTree = "<group>"; };
+		BD7A81C12B8B8E0800E1566B /* LoadableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadableViewController.swift; sourceTree = "<group>"; };
 		BDB249F32AC9D37B004E24F0 /* EndPoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoints.swift; sourceTree = "<group>"; };
-		BDB249F52AC9D3FF004E24F0 /* LoadableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableViewController.swift; sourceTree = "<group>"; };
+		BDB54A592B90ED5A0084D40D /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		BDB54A602B90F0290084D40D /* PostsCoreData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostsCoreData+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BDB54A612B90F0290084D40D /* PostsCoreData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostsCoreData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		BDE9AEFC2AC331AE00EBD442 /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
 		BDE9AEFD2AC331AE00EBD442 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -52,6 +58,7 @@
 		BD6004292AC32F00008011D1 = {
 			isa = PBXGroup;
 			children = (
+				BD60044A2AC32F51008011D1 /* Delegates */,
 				BD6004342AC32F00008011D1 /* Networking_Homework */,
 				BD6004332AC32F00008011D1 /* Products */,
 			);
@@ -68,15 +75,15 @@
 		BD6004342AC32F00008011D1 /* Networking_Homework */ = {
 			isa = PBXGroup;
 			children = (
-				BD60044A2AC32F51008011D1 /* Delegates */,
 				BD60044E2AC330DE008011D1 /* Data */,
 				BD60044B2AC32F5F008011D1 /* Networking */,
 				BDE9AEFB2AC3317C00EBD442 /* Views */,
 				BD6004492AC32F47008011D1 /* Controllers */,
+				BDB54A5F2B90EFB00084D40D /* Model */,
 				BD60043E2AC32F14008011D1 /* Assets.xcassets */,
 				BD6004402AC32F14008011D1 /* LaunchScreen.storyboard */,
 				BD6004432AC32F14008011D1 /* Info.plist */,
-				BDB249F52AC9D3FF004E24F0 /* LoadableViewController.swift */,
+				BD7A81C12B8B8E0800E1566B /* LoadableViewController.swift */,
 			);
 			path = Networking_Homework;
 			sourceTree = "<group>";
@@ -113,6 +120,16 @@
 				BD60044F2AC330F9008011D1 /* PostsData.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		BDB54A5F2B90EFB00084D40D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BDB54A602B90F0290084D40D /* PostsCoreData+CoreDataClass.swift */,
+				BDB54A612B90F0290084D40D /* PostsCoreData+CoreDataProperties.swift */,
+				BDB54A582B90ED5A0084D40D /* Model.xcdatamodeld */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		BDE9AEFB2AC3317C00EBD442 /* Views */ = {
@@ -205,14 +222,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDB54A622B90F0290084D40D /* PostsCoreData+CoreDataClass.swift in Sources */,
 				BD6004502AC330F9008011D1 /* PostsData.swift in Sources */,
 				BD60043A2AC32F00008011D1 /* ViewController.swift in Sources */,
+				BD7A81C22B8B8E0800E1566B /* LoadableViewController.swift in Sources */,
 				BD6004362AC32F00008011D1 /* AppDelegate.swift in Sources */,
 				BD6004382AC32F00008011D1 /* SceneDelegate.swift in Sources */,
+				BDB54A5A2B90ED5A0084D40D /* Model.xcdatamodeld in Sources */,
 				BD60044D2AC32F72008011D1 /* Networking.swift in Sources */,
 				BDB249F42AC9D37B004E24F0 /* EndPoints.swift in Sources */,
+				BDB54A632B90F0290084D40D /* PostsCoreData+CoreDataProperties.swift in Sources */,
 				BDE9AEFE2AC331AE00EBD442 /* PostTableViewCell.swift in Sources */,
-				BDB249F62AC9D3FF004E24F0 /* LoadableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +455,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BDB54A582B90ED5A0084D40D /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BDB54A592B90ED5A0084D40D /* Model.xcdatamodel */,
+			);
+			currentVersion = BDB54A592B90ED5A0084D40D /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BD60042A2AC32F00008011D1 /* Project object */;
 }
