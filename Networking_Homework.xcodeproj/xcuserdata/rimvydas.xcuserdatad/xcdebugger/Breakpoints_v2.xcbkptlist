@@ -7,110 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "6DAB98CB-D34E-4FFB-8A8A-97BC994049C4"
+            uuid = "C55C4A96-3EB2-45E6-8BCA-0629BB2A2AF8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "loadData()"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "fetchPosts()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "2FA8A6F3-2EDF-4BED-A6F4-CAFFD26DCAB3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "loadData()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "2FA8A6F3-2EDF-4BED-A6F4-CAFFD26DCAB3 - 646998d3b62d3eb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;Networking_Homework.Posts&gt;, Networking_Homework.APIError&gt;) -&gt; () in Networking_Homework.ViewController.loadData() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "168">
-               </Location>
-               <Location
-                  uuid = "2FA8A6F3-2EDF-4BED-A6F4-CAFFD26DCAB3 - 646998d3b62d3eb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;Networking_Homework.Posts&gt;, Networking_Homework.APIError&gt;) -&gt; () in Networking_Homework.ViewController.loadData() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "224">
-               </Location>
-               <Location
-                  uuid = "2FA8A6F3-2EDF-4BED-A6F4-CAFFD26DCAB3 - 646998d3b62d3eb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;Networking_Homework.Posts&gt;, Networking_Homework.APIError&gt;) -&gt; () in Networking_Homework.ViewController.loadData() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "201">
-               </Location>
-               <Location
-                  uuid = "2FA8A6F3-2EDF-4BED-A6F4-CAFFD26DCAB3 - 646998d3b62d3eb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;Networking_Homework.Posts&gt;, Networking_Homework.APIError&gt;) -&gt; () in Networking_Homework.ViewController.loadData() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "257">
-               </Location>
-               <Location
-                  uuid = "2FA8A6F3-2EDF-4BED-A6F4-CAFFD26DCAB3 - 646998d3b62d3eb9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 @Swift.MainActor () -&gt; () in closure #1 (Swift.Result&lt;Swift.Array&lt;Networking_Homework.Posts&gt;, Networking_Homework.APIError&gt;) -&gt; () in Networking_Homework.ViewController.loadData() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "91"
-                  endingLineNumber = "91"
-                  offsetFromSymbolStart = "250">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

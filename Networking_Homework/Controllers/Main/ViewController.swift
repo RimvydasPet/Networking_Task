@@ -6,17 +6,15 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: LoadableViewController {
     //from API
     private var posts: [Posts] = []
-    //Created by my self
-    var savedPosts: [PostsCoreData]?
+    
     //For Core Data
-    
+    var savedPosts: [PostsCoreData]?
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    
     
     var refreshControl = UIRefreshControl()
     
@@ -34,7 +32,7 @@ class ViewController: LoadableViewController {
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             self.loadData()
-            //            self.postTableView.reloadData()
+            //self.postTableView.reloadData()
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -69,15 +67,24 @@ class ViewController: LoadableViewController {
     }
     
     func fetchPosts() {
-        
+        let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
         do {
             self.savedPosts = try context.fetch(PostsCoreData.fetchRequest())
+            guard let body = savedPosts?.last?.body,
+                  let id = savedPosts?.last?.id,
+                  let title = savedPosts?.last?.title,
+                  let userId = savedPosts?.last?.userId
+            else { return }
+//            idLabel.text = shirtId.uuidString
+//            nameLabel.text = shirtName
+//            ratingValueLabel.text = " \(shirtRating)"
+//            imageView.image = UIImage(data: shirtImage)
             DispatchQueue.main.async {
                 self.postTableView.reloadData()
             }
         }
         catch {
-            
+            print(error.localizedDescription)
         }
     }
     
@@ -89,16 +96,15 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
-//                        self.posts = allData
-                        self.savedPosts = try self.context.fetch(PostsCoreData.fetchRequest())
-                        do {
-                            try self.context.save()
-                        }
-                        catch {
-                            
-                        }
-                        self.postTableView.reloadData()
-                        self.stopLoading()
+                        
+//                            self.savedPosts = try self.context.fetch(PostsCoreData.fetchRequest())
+                            self.posts = allData
+                            self.postTableView.reloadData()
+                            self.stopLoading()
+                        
+                        
+                       
+                        
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
@@ -111,22 +117,22 @@ class ViewController: LoadableViewController {
     }
 }
     //MARK: - Extensions
-    extension ViewController: UITableViewDataSource {
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return posts.count
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
+        if let cell = cell as? PostTableViewCell {
+            cell.setupText(userId: "userId: \(posts[indexPath.row].userId)",
+                           id: "id: \(posts[indexPath.row].id)",
+                           title: "title: \(posts[indexPath.row].title )",
+                           body: "\(posts[indexPath.row].body)")
+            return cell
+        } else {
+            return cell
         }
         
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
-            if let cell = cell as? PostTableViewCell {
-                cell.setupText(userId: "userId: \(savedPosts![indexPath.row].userId)",
-                               id: "id: \(savedPosts![indexPath.row].id)",
-                               title: "title: \(savedPosts![indexPath.row].title)",
-                               body: "\(savedPosts![indexPath.row].body)")
-                return cell
-            } else {
-                return cell
-            }
-            
-        }
     }
+}
