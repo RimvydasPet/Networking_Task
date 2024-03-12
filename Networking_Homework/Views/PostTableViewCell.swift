@@ -9,7 +9,7 @@ import UIKit
 
 class PostTableViewCell: UITableViewCell {
     
-    @IBOutlet weak private var loadTableViewCellLabel: UILabel!
+    @IBOutlet weak var loadTableViewCellLabel: UILabel!
     @IBOutlet weak var nameTableViewCellLabel: UILabel!
     @IBOutlet weak var statusTableViewCellLabel: UILabel!
     @IBOutlet weak var bodyTableViewCellLabel: UILabel!

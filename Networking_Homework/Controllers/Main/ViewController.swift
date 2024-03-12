@@ -11,19 +11,20 @@ import CoreData
 class ViewController: LoadableViewController {
     //from API
     private var posts: [Posts] = []
-    
-    //For Core Data
-    var savedPosts: [PostsCoreData]?
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
+    let postTableViewCell = PostTableViewCell()
     var refreshControl = UIRefreshControl()
+    //For Core Data
+    //    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var managedContext: NSManagedObjectContext?
     
     @IBOutlet weak var postTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        savePosts(posts: posts)
         setupTableView()
-        loadData()
+        self.fetchPosts()
+        //loadData()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         
@@ -31,8 +32,9 @@ class ViewController: LoadableViewController {
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.loadData()
+//            self.loadData()
             //self.postTableView.reloadData()
+            self.fetchPosts()
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -45,7 +47,7 @@ class ViewController: LoadableViewController {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         postTableView?.register(nib, forCellReuseIdentifier: "PostTableViewCell")
     }
-    
+    //MARK: - allert
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
@@ -66,28 +68,55 @@ class ViewController: LoadableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    func fetchPosts() {
-        let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
-        do {
-            self.savedPosts = try context.fetch(PostsCoreData.fetchRequest())
-            guard let body = savedPosts?.last?.body,
-                  let id = savedPosts?.last?.id,
-                  let title = savedPosts?.last?.title,
-                  let userId = savedPosts?.last?.userId
-            else { return }
-//            idLabel.text = shirtId.uuidString
-//            nameLabel.text = shirtName
-//            ratingValueLabel.text = " \(shirtRating)"
-//            imageView.image = UIImage(data: shirtImage)
-            DispatchQueue.main.async {
-                self.postTableView.reloadData()
+    //MARK: - CoreData
+    private func savePosts(posts: [Posts]) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        guard let entity = NSEntityDescription.entity(forEntityName: "PostsCoreData", in: managedContext) else { return  }
+        
+        for post in posts {
+//            let item = PostsCoreData(context: managedContext)
+            let item = PostsCoreData(entity: entity, insertInto: managedContext)
+            item.id = Int64(post.id)
+            item.userId = Int64(post.userId)
+            item.title = post.title
+            item.body = post.body
+            
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("Could not save. \(error), \(error.userInfo)")
             }
         }
-        catch {
+        do {
+            try managedContext.save()
+            dismiss(animated: true)
+        } catch {
             print(error.localizedDescription)
         }
     }
+    //MARK: - Load From CoreData
+        func fetchPosts() {
+            let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
+            
+            do {
+                let savedPosts = try managedContext?.fetch(request)
+                guard let body = savedPosts?.last?.body,
+                      let id = savedPosts?.last?.id,
+                      let title = savedPosts?.last?.title,
+                      let userId = savedPosts?.last?.userId
+                else { return }
+                postTableViewCell.bodyTableViewCellLabel.text = body
+                postTableViewCell.nameTableViewCellLabel.text = ("\(id)")
+                postTableViewCell.statusTableViewCellLabel.text = title
+                postTableViewCell.loadTableViewCellLabel.text = ("\(userId)")
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
     
+    //MARK: - Load from API
     func loadData() {
         startLoading()
         let url = EndPoints.endpoint
@@ -96,30 +125,23 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
-                        
-//                            self.savedPosts = try self.context.fetch(PostsCoreData.fetchRequest())
-                            self.posts = allData
-                            self.postTableView.reloadData()
-                            self.stopLoading()
-                        
-                        
-                       
-                        
+                        self.savePosts(posts: allData)
+                        self.postTableView.reloadData()
+                        self.stopLoading()
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
-                } catch {
-                    // Handle the error here, if needed
-                    print("Error: \(error)")
                 }
             }
         })
     }
 }
-    //MARK: - Extensions
+//MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(posts.count)
         return posts.count
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

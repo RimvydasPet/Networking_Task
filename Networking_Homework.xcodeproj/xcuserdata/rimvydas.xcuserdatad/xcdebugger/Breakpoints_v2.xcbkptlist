@@ -7,17 +7,175 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C55C4A96-3EB2-45E6-8BCA-0629BB2A2AF8"
+            uuid = "0D035893-6979-42B3-AA45-029F54C80AD6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0D035893-6979-42B3-AA45-029F54C80AD6 - 1faee770544044d9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.tableView(_: __C.UITableView, cellForRowAt: Foundation.IndexPath) -&gt; __C.UITableViewCell"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "399">
+               </Location>
+               <Location
+                  uuid = "0D035893-6979-42B3-AA45-029F54C80AD6 - 1faee770544044d9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.tableView(_: __C.UITableView, cellForRowAt: Foundation.IndexPath) -&gt; __C.UITableViewCell"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "148"
+                  endingLineNumber = "148"
+                  offsetFromSymbolStart = "536">
+               </Location>
+               <Location
+                  uuid = "0D035893-6979-42B3-AA45-029F54C80AD6 - 1faee7705440441f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.tableView(_: __C.UITableView, cellForRowAt: Foundation.IndexPath) -&gt; __C.UITableViewCell"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "150"
+                  endingLineNumber = "150"
+                  offsetFromSymbolStart = "536">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "83740490-CC40-4641-B025-1E224496CBBD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "fetchPosts()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "83740490-CC40-4641-B025-1E224496CBBD - 267645515715aff1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.fetchPosts() -&gt; ()"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "147">
+               </Location>
+               <Location
+                  uuid = "83740490-CC40-4641-B025-1E224496CBBD - 267645515715af16"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.fetchPosts() -&gt; ()"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "101"
+                  endingLineNumber = "101"
+                  offsetFromSymbolStart = "147">
+               </Location>
+               <Location
+                  uuid = "83740490-CC40-4641-B025-1E224496CBBD - 267645515715afd0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.fetchPosts() -&gt; ()"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "147">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "119702CA-80B6-414F-A0E9-CCBC7693F86B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "savePosts(posts:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "119702CA-80B6-414F-A0E9-CCBC7693F86B - 4ccd705c7a2b566b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.savePosts(posts: Swift.Array&lt;Networking_Homework.Posts&gt;) -&gt; ()"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "459">
+               </Location>
+               <Location
+                  uuid = "119702CA-80B6-414F-A0E9-CCBC7693F86B - 4ccd705c7a2b566b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Networking_Homework.ViewController.savePosts(posts: Swift.Array&lt;Networking_Homework.Posts&gt;) -&gt; ()"
+                  moduleName = "Networking_Homework"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "74"
+                  endingLineNumber = "74"
+                  offsetFromSymbolStart = "467">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
