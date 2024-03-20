@@ -9,22 +9,20 @@ import UIKit
 import CoreData
 
 class ViewController: LoadableViewController {
-    //from API
     private var posts: [Posts] = []
     let postTableViewCell = PostTableViewCell()
     var refreshControl = UIRefreshControl()
-    //For Core Data
-    //    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var managedContext: NSManagedObjectContext?
     
     @IBOutlet weak var postTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        savePosts(posts: posts)
+        //data base place 
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         setupTableView()
-        self.fetchPosts()
-        //loadData()
+        loadData()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         
@@ -32,8 +30,6 @@ class ViewController: LoadableViewController {
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-//            self.loadData()
-            //self.postTableView.reloadData()
             self.fetchPosts()
             self.stopLoading()
             self.postTableView.reloadData()
@@ -62,7 +58,6 @@ class ViewController: LoadableViewController {
                 self.refreshControl.endRefreshing()
             }
         }
-        
         alertController.addAction(tryAgainAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
@@ -81,12 +76,6 @@ class ViewController: LoadableViewController {
             item.userId = Int64(post.userId)
             item.title = post.title
             item.body = post.body
-            
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
-            }
         }
         do {
             try managedContext.save()
