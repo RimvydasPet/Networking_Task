@@ -7,175 +7,49 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "478C8AE4-10CE-4C2E-B39B-F5F1930A0C07"
+            uuid = "F02A0C23-A41D-4895-9BDC-A4654D1C823D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "savePosts(posts:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1FBB3735-51D6-4184-9AB5-8B389D406359"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "loadData()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "1FBB3735-51D6-4184-9AB5-8B389D406359 - a111a3dee50d3d0e"
+                  uuid = "F02A0C23-A41D-4895-9BDC-A4654D1C823D - b31ef3351d7d86fa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Networking_Homework.ViewController.viewDidLoad() -&gt; ()"
+                  symbolName = "Networking_Homework.ViewController.loadData() -&gt; ()"
                   moduleName = "Networking_Homework"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "23"
-                  endingLineNumber = "23"
-                  offsetFromSymbolStart = "34">
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "59">
                </Location>
                <Location
-                  uuid = "1FBB3735-51D6-4184-9AB5-8B389D406359 - a111a3dee50d3d48"
+                  uuid = "F02A0C23-A41D-4895-9BDC-A4654D1C823D - b31ef3351d7d86fa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Networking_Homework.ViewController.viewDidLoad() -&gt; ()"
+                  symbolName = "Networking_Homework.ViewController.loadData() -&gt; ()"
                   moduleName = "Networking_Homework"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "85">
-               </Location>
-               <Location
-                  uuid = "1FBB3735-51D6-4184-9AB5-8B389D406359 - a111a3dee50d3d48"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Networking_Homework.ViewController.viewDidLoad() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "34">
-               </Location>
-               <Location
-                  uuid = "1FBB3735-51D6-4184-9AB5-8B389D406359 - a111a3dee50d3d48"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Networking_Homework.ViewController.viewDidLoad() -&gt; ()"
-                  moduleName = "Networking_Homework"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rimvydas/Documents/CV/IOS%20tasks/BalticAmadeus/BATask/Networking_Homework/Controllers/Main/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "37">
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "33">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "5D5A9B49-B1D2-4DB9-84B5-752117151C66"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
-            landmarkName = "loadData()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7C6B6456-4CDC-405E-82F6-EAA50EC74B9D"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "ViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E81297C4-1738-41D2-A48E-E7726F947013"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "fetchPosts()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8EF43107-2463-4920-AA80-E76E2EFF89BF"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "savePosts(posts:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8C229924-FFF7-48F7-AB1A-9C1E95789223"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Networking_Homework/Controllers/Main/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "handleRefreshControl(_:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

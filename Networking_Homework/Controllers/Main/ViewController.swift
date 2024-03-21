@@ -9,23 +9,32 @@ import UIKit
 import CoreData
 
 class ViewController: LoadableViewController {
-    private var posts: [Posts] = []
+    
+    var posts: [PostsCoreData] = []
     let postTableViewCell = PostTableViewCell()
     var refreshControl = UIRefreshControl()
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var managedContext: NSManagedObjectContext?
-    
+    var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//    var managedContext: NSManagedObjectContext
     @IBOutlet weak var postTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //data base place 
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        context = appDelegate.persistentContainer.viewContext
+        //data base place
+        // print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         setupTableView()
-        loadData()
+        //        loadData()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.fetchPosts()
+        self.stopLoading()
     }
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
@@ -34,20 +43,20 @@ class ViewController: LoadableViewController {
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
-            
         }
     }
     
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
-        postTableView?.register(nib, forCellReuseIdentifier: "PostTableViewCell")
+        postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
     }
-    //MARK: - allert
+    
+    //MARK: - Alert
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
-            self.loadData()
+            //            self.loadData()
             self.postTableView.reloadData()
             self.stopLoading()
         }
@@ -63,14 +72,14 @@ class ViewController: LoadableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    //MARK: - CoreData
+    //MARK: - Save to CoreData
     private func savePosts(posts: [Posts]) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         guard let entity = NSEntityDescription.entity(forEntityName: "PostsCoreData", in: managedContext) else { return  }
         
         for post in posts {
-//            let item = PostsCoreData(context: managedContext)
+            //            let item = PostsCoreData(context: managedContext)
             let item = PostsCoreData(entity: entity, insertInto: managedContext)
             item.id = Int64(post.id)
             item.userId = Int64(post.userId)
@@ -85,25 +94,24 @@ class ViewController: LoadableViewController {
         }
     }
     //MARK: - Load From CoreData
-        func fetchPosts() {
-            let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
-            
-            do {
-                let savedPosts = try managedContext?.fetch(request)
-                guard let body = savedPosts?.last?.body,
-                      let id = savedPosts?.last?.id,
-                      let title = savedPosts?.last?.title,
-                      let userId = savedPosts?.last?.userId
-                else { return }
-                postTableViewCell.bodyTableViewCellLabel.text = body
-                postTableViewCell.nameTableViewCellLabel.text = ("\(id)")
-                postTableViewCell.statusTableViewCellLabel.text = title
-                postTableViewCell.loadTableViewCellLabel.text = ("\(userId)")
-            }
-            catch {
-                print(error.localizedDescription)
-            }
+    func fetchPosts() {
+        let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
+        
+        do {
+            posts = try context.fetch(request)
+            guard  let userId = posts.last?.userId,
+                   let id = posts.last?.id,
+                   let title = posts.last?.title,
+                   let body = posts.last?.body
+            else { return }
+            postTableViewCell.loadTableViewCellLabel?.text = "\(userId)"
+            postTableViewCell.nameTableViewCellLabel?.text = "\(id)"
+            postTableViewCell.statusTableViewCellLabel?.text = title
+            postTableViewCell.bodyTableViewCellLabel?.text = body
+        } catch {
+            print(error.localizedDescription)
         }
+    }
     
     //MARK: - Load from API
     func loadData() {
@@ -128,7 +136,6 @@ class ViewController: LoadableViewController {
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(posts.count)
         return posts.count
         
     }
@@ -138,8 +145,8 @@ extension ViewController: UITableViewDataSource {
         if let cell = cell as? PostTableViewCell {
             cell.setupText(userId: "userId: \(posts[indexPath.row].userId)",
                            id: "id: \(posts[indexPath.row].id)",
-                           title: "title: \(posts[indexPath.row].title )",
-                           body: "\(posts[indexPath.row].body)")
+                           title: "title: \(String(describing: posts[indexPath.row].title) )",
+                           body: "\(String(describing: posts[indexPath.row].body))")
             return cell
         } else {
             return cell
