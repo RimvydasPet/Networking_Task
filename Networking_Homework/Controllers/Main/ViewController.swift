@@ -25,7 +25,7 @@ class ViewController: LoadableViewController {
         //data base place
         // print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         setupTableView()
-        //        loadData()
+        
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         
@@ -33,14 +33,16 @@ class ViewController: LoadableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        loadData()
         self.fetchPosts()
         self.stopLoading()
     }
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.fetchPosts()
-            self.stopLoading()
+//            self.fetchPosts()
+//            self.stopLoading()
+            self.loadData()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -56,7 +58,7 @@ class ViewController: LoadableViewController {
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
-            //            self.loadData()
+            self.loadData()
             self.postTableView.reloadData()
             self.stopLoading()
         }
