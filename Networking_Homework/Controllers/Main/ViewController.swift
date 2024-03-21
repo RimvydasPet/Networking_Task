@@ -14,7 +14,6 @@ class ViewController: LoadableViewController {
     let postTableViewCell = PostTableViewCell()
     var refreshControl = UIRefreshControl()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//    var managedContext: NSManagedObjectContext
     @IBOutlet weak var postTableView: UITableView!
     
     override func viewDidLoad() {
@@ -22,27 +21,23 @@ class ViewController: LoadableViewController {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
-        //data base place
-        // print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         setupTableView()
-        
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        loadData()
+//        self.loadData()
         self.fetchPosts()
         self.stopLoading()
+        //data base place
+        // print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        
     }
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-//            self.fetchPosts()
-//            self.stopLoading()
             self.loadData()
+//            self.fetchPosts()
+            self.stopLoading()
+            
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -69,6 +64,7 @@ class ViewController: LoadableViewController {
                 self.refreshControl.endRefreshing()
             }
         }
+    
         alertController.addAction(tryAgainAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
@@ -81,13 +77,13 @@ class ViewController: LoadableViewController {
         guard let entity = NSEntityDescription.entity(forEntityName: "PostsCoreData", in: managedContext) else { return  }
         
         for post in posts {
-            //            let item = PostsCoreData(context: managedContext)
             let item = PostsCoreData(entity: entity, insertInto: managedContext)
             item.id = Int64(post.id)
             item.userId = Int64(post.userId)
             item.title = post.title
             item.body = post.body
         }
+        
         do {
             try managedContext.save()
             dismiss(animated: true)
@@ -139,7 +135,6 @@ class ViewController: LoadableViewController {
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
