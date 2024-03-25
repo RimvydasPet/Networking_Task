@@ -24,20 +24,16 @@ class ViewController: LoadableViewController {
         setupTableView()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
-//        self.loadData()
         self.fetchPosts()
         self.stopLoading()
-        //data base place
-        // print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
-        
+//        data base place:
+//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             self.loadData()
-//            self.fetchPosts()
             self.stopLoading()
-            
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -59,12 +55,13 @@ class ViewController: LoadableViewController {
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            // need to implement how to show initial values after cancel. Idea to load from SwiftData
+            self.fetchPosts()
+            self.stopLoading()
             DispatchQueue.main.async {
                 self.refreshControl.endRefreshing()
             }
         }
-    
+        
         alertController.addAction(tryAgainAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
@@ -114,7 +111,7 @@ class ViewController: LoadableViewController {
     //MARK: - Load from API
     func loadData() {
         startLoading()
-        let url = EndPoints.endpoint
+        let url = EndPoints.postsEndpoint
         Networking<[Posts]>.loadData(urlString: url, completion: { result in
             DispatchQueue.main.async {
                 do {
@@ -142,8 +139,8 @@ extension ViewController: UITableViewDataSource {
         if let cell = cell as? PostTableViewCell {
             cell.setupText(userId: "userId: \(posts[indexPath.row].userId)",
                            id: "id: \(posts[indexPath.row].id)",
-                           title: "title: \(String(describing: posts[indexPath.row].title) )",
-                           body: "\(String(describing: posts[indexPath.row].body))")
+                           title: "title: \(posts[indexPath.row].title ?? "No tittle"))",
+                           body: "\(posts[indexPath.row].body ?? "No body"))")
             return cell
         } else {
             return cell

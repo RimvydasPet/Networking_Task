@@ -9,5 +9,8 @@ import Foundation
 
 struct EndPoints {
     static let mainUrlString = "https://jsonplaceholder.typicode.com"
-    static let endpoint = mainUrlString + "/posts"
+    static let postsEndpoint = mainUrlString + "/posts"
+    static let usersId = mainUrlString + "/users"
+    static let id = mainUrlString + usersId + "/7"
+    
 }
