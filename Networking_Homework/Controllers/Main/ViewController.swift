@@ -10,8 +10,8 @@ import CoreData
 
 class ViewController: LoadableViewController {
     
-    var posts: [PostsCoreData] = []
     let postTableViewCell = PostTableViewCell()
+    var coreDataExtension = CoreDataExtension()
     var refreshControl = UIRefreshControl()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     @IBOutlet weak var postTableView: UITableView!
@@ -24,10 +24,10 @@ class ViewController: LoadableViewController {
         setupTableView()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
-        self.fetchPosts()
+        self.coreDataExtension.fetchPosts()
         self.stopLoading()
-//        data base place:
-//        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        //        data base place:
+        //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
@@ -55,7 +55,8 @@ class ViewController: LoadableViewController {
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            self.fetchPosts()
+            self.coreDataExtension.fetchUserDetails()
+            self.coreDataExtension.fetchPosts()
             self.stopLoading()
             DispatchQueue.main.async {
                 self.refreshControl.endRefreshing()
@@ -67,47 +68,6 @@ class ViewController: LoadableViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    //MARK: - Save to CoreData
-    private func savePosts(posts: [Posts]) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        guard let entity = NSEntityDescription.entity(forEntityName: "PostsCoreData", in: managedContext) else { return  }
-        
-        for post in posts {
-            let item = PostsCoreData(entity: entity, insertInto: managedContext)
-            item.id = Int64(post.id)
-            item.userId = Int64(post.userId)
-            item.title = post.title
-            item.body = post.body
-        }
-        
-        do {
-            try managedContext.save()
-            dismiss(animated: true)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    //MARK: - Load From CoreData
-    func fetchPosts() {
-        let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
-        
-        do {
-            posts = try context.fetch(request)
-            guard  let userId = posts.last?.userId,
-                   let id = posts.last?.id,
-                   let title = posts.last?.title,
-                   let body = posts.last?.body
-            else { return }
-            postTableViewCell.loadTableViewCellLabel?.text = "\(userId)"
-            postTableViewCell.nameTableViewCellLabel?.text = "\(id)"
-            postTableViewCell.statusTableViewCellLabel?.text = title
-            postTableViewCell.bodyTableViewCellLabel?.text = body
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     //MARK: - Load from API
     func loadData() {
         startLoading()
@@ -117,7 +77,7 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
-                        self.savePosts(posts: allData)
+                        self.coreDataExtension.savePosts(posts: allData)
                         self.postTableView.reloadData()
                         self.stopLoading()
                     case .failure(let apiError):
@@ -131,20 +91,19 @@ class ViewController: LoadableViewController {
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return coreDataExtension.posts.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
         if let cell = cell as? PostTableViewCell {
-            cell.setupText(userId: "userId: \(posts[indexPath.row].userId)",
-                           id: "id: \(posts[indexPath.row].id)",
-                           title: "title: \(posts[indexPath.row].title ?? "No tittle"))",
-                           body: "\(posts[indexPath.row].body ?? "No body"))")
+            cell.setupTextPosts(userId: "userId: \(coreDataExtension.posts[indexPath.row].userId)",
+                                id: "id: \(coreDataExtension.posts[indexPath.row].id)",
+                                title: "title: \(coreDataExtension.posts[indexPath.row].title ?? "No tittle"))",
+                                body: "\(coreDataExtension.posts[indexPath.row].body ?? "No body"))")
             return cell
         } else {
             return cell
         }
-        
     }
 }

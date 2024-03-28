@@ -20,7 +20,6 @@ class Networking<T: Decodable> {
             case .success(let data):
                 do {
                     let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
                     let object = try decoder.decode(T.self, from: data)
                     completion(.success(object))
                 } catch {
