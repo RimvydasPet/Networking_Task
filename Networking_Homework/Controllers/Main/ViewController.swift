@@ -25,6 +25,7 @@ class ViewController: LoadableViewController {
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
+        self.coreDataExtension.fetchUserDetails()
         self.stopLoading()
         //data base place:
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
@@ -32,8 +33,9 @@ class ViewController: LoadableViewController {
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
+            self.loadUsersData()
             self.loadPostsData()
-//            self.loadUsersData()
+            
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -51,7 +53,7 @@ class ViewController: LoadableViewController {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
             self.loadPostsData()
-//            self.loadUsersData()
+            self.loadUsersData()
             self.postTableView.reloadData()
             self.stopLoading()
         }
@@ -114,16 +116,17 @@ class ViewController: LoadableViewController {
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coreDataExtension.posts.count
+        return coreDataExtension.userDetails.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
         if let cell = cell as? PostTableViewCell {
-            cell.setupTextPosts(userId: "userId: \(coreDataExtension.posts[indexPath.row].userId)",
-                                id: "id: \(coreDataExtension.posts[indexPath.row].id)",
-                                title: "title: \(coreDataExtension.posts[indexPath.row].title ?? "No tittle"))",
-                                body: "\(coreDataExtension.posts[indexPath.row].body ?? "No body"))")
+            cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "No Tittle")")
+            cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "No Name")")
+//                                userId: "userId: \(coreDataExtension.posts[indexPath.row].userId)",
+//                                id: "id: \(coreDataExtension.posts[indexPath.row].id)",
+//                                body: "\(coreDataExtension.posts[indexPath.row].body ?? "No body")")
             return cell
         } else {
             return cell
