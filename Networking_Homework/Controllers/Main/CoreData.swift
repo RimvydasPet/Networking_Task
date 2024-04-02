@@ -8,15 +8,15 @@
 import UIKit
 import CoreData
 
-class CoreDataExtension {
+class CoreDataExtension: UIViewController {
     
     var userDetails : [UserDetails] = []
     var posts: [PostsCoreData] = []
     let postTableViewCell = PostTableViewCell()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
-    //MARK: - Save to CoreData
-    private func saveUserDetails(userDetails: [UserDetails]) {
+    //MARK: - Save Users Details to CoreData
+    func saveUserDetails(userDetails: [Users]) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         guard let entity = NSEntityDescription.entity(forEntityName: "UserDetails", in: managedContext) else { return  }
@@ -31,12 +31,12 @@ class CoreDataExtension {
         
         do {
             try managedContext.save()
-//            dismiss(animated: true)
+            dismiss(animated: true)
         } catch {
             print(error.localizedDescription)
         }
     }
-    //MARK: - Load From CoreData
+    //MARK: - Load Users Details From CoreData
     func fetchUserDetails() {
         let request: NSFetchRequest<UserDetails> = UserDetails.fetchRequest()
         
@@ -56,7 +56,7 @@ class CoreDataExtension {
         }
     }
     
-    //MARK: - Save to CoreData
+    //MARK: - Save Posts to CoreData
     func savePosts(posts: [Posts]) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -72,12 +72,12 @@ class CoreDataExtension {
         
         do {
             try managedContext.save()
-//            dismiss(animated: true)
+            dismiss(animated: true)
         } catch {
             print(error.localizedDescription)
         }
     }
-    //MARK: - Load From CoreData
+    //MARK: - Load Posts From CoreData
     func fetchPosts() {
         let request: NSFetchRequest<PostsCoreData> = PostsCoreData.fetchRequest()
         

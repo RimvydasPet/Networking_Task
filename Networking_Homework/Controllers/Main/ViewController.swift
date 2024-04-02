@@ -26,13 +26,14 @@ class ViewController: LoadableViewController {
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.stopLoading()
-        //        data base place:
-        //        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        //data base place:
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.loadData()
+            self.loadPostsData()
+//            self.loadUsersData()
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -49,7 +50,8 @@ class ViewController: LoadableViewController {
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
-            self.loadData()
+            self.loadPostsData()
+//            self.loadUsersData()
             self.postTableView.reloadData()
             self.stopLoading()
         }
@@ -69,7 +71,7 @@ class ViewController: LoadableViewController {
     }
     
     //MARK: - Load from API
-    func loadData() {
+    func loadPostsData() {
         startLoading()
         let url = EndPoints.postsEndpoint
         Networking<[Posts]>.loadData(urlString: url, completion: { result in
@@ -87,7 +89,28 @@ class ViewController: LoadableViewController {
             }
         })
     }
+    
+    func loadUsersData() {
+        startLoading()
+        let url = EndPoints.usersEndpoint
+        Networking<[Users]>.loadData(urlString: url, completion: { result in
+            DispatchQueue.main.async {
+                do {
+                    switch result {
+                    case .success(let allData):
+                        self.coreDataExtension.saveUserDetails(userDetails: allData)
+                        self.postTableView.reloadData()
+                        self.stopLoading()
+                    case .failure(let apiError):
+                        self.showAlert(errorMessage: apiError.localizedDescription)
+                    }
+                }
+            }
+        })
+    }
+    //MARK: - End of the class
 }
+
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
