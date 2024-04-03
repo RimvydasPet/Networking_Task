@@ -33,12 +33,11 @@ class ViewController: LoadableViewController {
     
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.loadUsersData()
             self.loadPostsData()
-            
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
+            
         }
     }
     
@@ -53,18 +52,12 @@ class ViewController: LoadableViewController {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
             self.loadPostsData()
-            self.loadUsersData()
-            self.postTableView.reloadData()
             self.stopLoading()
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            self.coreDataExtension.fetchUserDetails()
             self.coreDataExtension.fetchPosts()
-            self.stopLoading()
-            DispatchQueue.main.async {
-                self.refreshControl.endRefreshing()
-            }
+            self.coreDataExtension.fetchUserDetails()
         }
         
         alertController.addAction(tryAgainAction)
