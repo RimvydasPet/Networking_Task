@@ -14,15 +14,15 @@ class ViewController: LoadableViewController {
     var coreDataExtension = CoreDataExtension()
     var refreshControl = UIRefreshControl()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     @IBOutlet weak var postTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
         setupTableView()
-        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.coreDataExtension.fetchUserDetails()
@@ -31,20 +31,20 @@ class ViewController: LoadableViewController {
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
-    @objc func handleRefreshControl(_ send: UIRefreshControl) {
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.loadPostsData()
-            self.stopLoading()
-            self.postTableView.reloadData()
-            self.refreshControl.endRefreshing()
-            
-        }
-    }
-    
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
+    }
+    
+    @objc func handleRefreshControl() {
+            self.loadPostsData()
+            self.postTableView.reloadData()
+            self.stopLoading()
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                self.refreshControl.endRefreshing()
+            self.refreshControl.endRefreshing()
+        }
     }
     
     //MARK: - Alert
@@ -54,12 +54,13 @@ class ViewController: LoadableViewController {
             self.loadPostsData()
             self.stopLoading()
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
             self.coreDataExtension.fetchPosts()
             self.coreDataExtension.fetchUserDetails()
+            DispatchQueue.main.async() {
+                self.refreshControl.endRefreshing()
+            }
         }
-        
         alertController.addAction(tryAgainAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
@@ -84,26 +85,6 @@ class ViewController: LoadableViewController {
             }
         })
     }
-    
-    func loadUsersData() {
-        startLoading()
-        let url = EndPoints.usersEndpoint
-        Networking<[Users]>.loadData(urlString: url, completion: { result in
-            DispatchQueue.main.async {
-                do {
-                    switch result {
-                    case .success(let allData):
-                        self.coreDataExtension.saveUserDetails(userDetails: allData)
-                        self.postTableView.reloadData()
-                        self.stopLoading()
-                    case .failure(let apiError):
-                        self.showAlert(errorMessage: apiError.localizedDescription)
-                    }
-                }
-            }
-        })
-    }
-    //MARK: - End of the class
 }
 
 //MARK: - Extensions
@@ -117,9 +98,6 @@ extension ViewController: UITableViewDataSource {
         if let cell = cell as? PostTableViewCell {
             cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "No Tittle")")
             cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "No Name")")
-//                                userId: "userId: \(coreDataExtension.posts[indexPath.row].userId)",
-//                                id: "id: \(coreDataExtension.posts[indexPath.row].id)",
-//                                body: "\(coreDataExtension.posts[indexPath.row].body ?? "No body")")
             return cell
         } else {
             return cell
