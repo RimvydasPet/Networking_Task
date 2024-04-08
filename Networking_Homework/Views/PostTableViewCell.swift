@@ -14,18 +14,12 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var statusTableViewCellLabel: UILabel!
     @IBOutlet weak var bodyTableViewCellLabel: UILabel!
     
-    func setupTextPosts(userId: String, id: String, title: String, body: String) {
-        loadTableViewCellLabel.text = userId
-        nameTableViewCellLabel.text = id
+    func setupTextPosts(title: String) {
         statusTableViewCellLabel.text = title
-        bodyTableViewCellLabel.text = body
     }
     
-    func setupTextUsers(Id: String, name: String, username: String, email: String) {
-        loadTableViewCellLabel.text = Id
+    func setupTextUsers(name: String) {
         nameTableViewCellLabel.text = name
-        statusTableViewCellLabel.text = username
-        bodyTableViewCellLabel.text = email
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
