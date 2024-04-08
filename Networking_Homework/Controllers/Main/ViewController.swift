@@ -25,7 +25,7 @@ class ViewController: LoadableViewController {
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
-//        self.coreDataExtension.fetchUserDetails()
+        self.coreDataExtension.fetchUserDetails()
         self.stopLoading()
         //data base place:
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
@@ -34,7 +34,8 @@ class ViewController: LoadableViewController {
     @objc func handleRefreshControl(_ send: UIRefreshControl) {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             self.loadPostsData()
-//            self.loadUsersData()
+            //here something not right
+            self.loadUsersData()
             self.stopLoading()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
@@ -121,8 +122,8 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
         if let cell = cell as? PostTableViewCell {
-            cell.setupTextUsers(name: "Name \(coreDataExtension.userDetails[indexPath.row].name ?? "Default name")")
-            cell.setupTextPosts(title: "title: \(coreDataExtension.posts[indexPath.row].title ?? "Default title")")
+            cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "Default name")")
+            cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "Default title")")
             
             return cell
         } else {
