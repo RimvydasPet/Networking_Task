@@ -12,6 +12,9 @@ class ViewController: LoadableViewController {
     
     let postTableViewCell = PostTableViewCell()
     var coreDataExtension = CoreDataExtension()
+    
+    var posts: [Posts] = []
+    var users: [Users] = []
     var refreshControl = UIRefreshControl()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     @IBOutlet weak var postTableView: UITableView!
@@ -25,7 +28,12 @@ class ViewController: LoadableViewController {
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.coreDataExtension.fetchUserDetails()
-        setupTableView()
+        self.setupTableView()
+        DispatchQueue.main.async {
+          
+            self.postTableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
         //data base place:
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
@@ -36,8 +44,7 @@ class ViewController: LoadableViewController {
             self.stopLoading()
             self.loadUsersData()
             self.stopLoading()
-            self.coreDataExtension.fetchPosts()
-            self.coreDataExtension.fetchUserDetails()
+            self.setupTableView()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -81,6 +88,7 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
+                        self.posts = allData
                         self.coreDataExtension.savePosts(posts: allData)
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
@@ -98,6 +106,7 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
+                        self.users = allData
                         self.coreDataExtension.saveUserDetails(userDetails: allData)
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
@@ -112,15 +121,23 @@ class ViewController: LoadableViewController {
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coreDataExtension.userDetails.count
+        if coreDataExtension.userDetails.count == 0 {
+            return users.count
+        } else {
+            return coreDataExtension.userDetails.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
         if let cell = cell as? PostTableViewCell {
-            cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "Default name")")
-            cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "Default title")")
-            
+            if coreDataExtension.userDetails.count == 0 {
+                cell.setupTextUsers(name: "Name: \(users[indexPath.row].name )")
+                cell.setupTextPosts(title: "Title: \(posts[indexPath.row].title )")
+            } else {
+                cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "Default name")")
+                cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "Default title")")
+            }
             return cell
         } else {
             return cell
