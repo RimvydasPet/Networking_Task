@@ -21,22 +21,23 @@ class ViewController: LoadableViewController {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
-        setupTableView()
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.coreDataExtension.fetchUserDetails()
-        self.stopLoading()
+        setupTableView()
         //data base place:
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
-    @objc func handleRefreshControl(_ send: UIRefreshControl) {
+    @objc func handleRefreshControl() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             self.loadPostsData()
-            //here something not right
+            self.stopLoading()
             self.loadUsersData()
             self.stopLoading()
+            self.coreDataExtension.fetchPosts()
+            self.coreDataExtension.fetchUserDetails()
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -53,7 +54,6 @@ class ViewController: LoadableViewController {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
             self.loadPostsData()
-//            self.loadUsersData()
             self.postTableView.reloadData()
             self.stopLoading()
         }
@@ -82,8 +82,6 @@ class ViewController: LoadableViewController {
                     switch result {
                     case .success(let allData):
                         self.coreDataExtension.savePosts(posts: allData)
-                        self.postTableView.reloadData()
-                        self.stopLoading()
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
@@ -101,8 +99,6 @@ class ViewController: LoadableViewController {
                     switch result {
                     case .success(let allData):
                         self.coreDataExtension.saveUserDetails(userDetails: allData)
-                        self.postTableView.reloadData()
-                        self.stopLoading()
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
