@@ -30,7 +30,6 @@ class ViewController: LoadableViewController {
         self.coreDataExtension.fetchUserDetails()
         self.setupTableView()
         DispatchQueue.main.async {
-          
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -40,13 +39,18 @@ class ViewController: LoadableViewController {
     
     @objc func handleRefreshControl() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
-            self.loadPostsData()
-            self.stopLoading()
-            self.loadUsersData()
-            self.stopLoading()
-            self.setupTableView()
-            self.postTableView.reloadData()
-            self.refreshControl.endRefreshing()
+            if self.coreDataExtension.userDetails.isEmpty == true {
+                self.loadPostsData()
+                self.stopLoading()
+                self.loadUsersData()
+                self.stopLoading()
+                self.setupTableView()
+                self.postTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            } else {
+                self.postTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
         }
     }
     
