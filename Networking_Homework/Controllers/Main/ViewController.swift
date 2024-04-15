@@ -48,6 +48,11 @@ class ViewController: LoadableViewController {
                 self.postTableView.reloadData()
                 self.refreshControl.endRefreshing()
             } else {
+                self.loadPostsData()
+                self.stopLoading()
+                self.loadUsersData()
+                self.stopLoading()
+                self.setupTableView()
                 self.postTableView.reloadData()
                 self.refreshControl.endRefreshing()
             }
@@ -67,6 +72,9 @@ class ViewController: LoadableViewController {
             self.loadPostsData()
             self.postTableView.reloadData()
             self.stopLoading()
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
@@ -93,7 +101,11 @@ class ViewController: LoadableViewController {
                     switch result {
                     case .success(let allData):
                         self.posts = allData
-                        self.coreDataExtension.savePosts(posts: allData)
+                        if self.coreDataExtension.userDetails.isEmpty == true {
+                            self.coreDataExtension.savePosts(posts: allData)
+                        } else {
+                            self.posts = allData
+                        }
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
@@ -110,8 +122,11 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
-                        self.users = allData
-                        self.coreDataExtension.saveUserDetails(userDetails: allData)
+                        if self.coreDataExtension.userDetails.isEmpty == true {
+                            self.coreDataExtension.saveUserDetails(userDetails: allData)
+                        } else {
+                            self.users = allData
+                        }
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
