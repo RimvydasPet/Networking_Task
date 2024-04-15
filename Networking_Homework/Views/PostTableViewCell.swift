@@ -15,7 +15,7 @@ class PostTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyTableViewCellLabel: UILabel!
     
     func setupTextPosts(title: String) {
-        statusTableViewCellLabel.text = title
+        bodyTableViewCellLabel.text = title
     }
     
     func setupTextUsers(name: String) {

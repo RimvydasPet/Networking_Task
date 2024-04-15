@@ -12,6 +12,9 @@ class ViewController: LoadableViewController {
     
     let postTableViewCell = PostTableViewCell()
     var coreDataExtension = CoreDataExtension()
+    
+    var posts: [Posts] = []
+    var users: [Users] = []
     var refreshControl = UIRefreshControl()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -21,16 +24,41 @@ class ViewController: LoadableViewController {
         super.viewDidLoad()
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
-        setupTableView()
-        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
         postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.coreDataExtension.fetchUserDetails()
-        self.stopLoading()
+        self.setupTableView()
+        DispatchQueue.main.async {
+            self.postTableView.reloadData()
+            self.refreshControl.endRefreshing()
+        }
         //data base place:
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
+@objc func handleRefreshControl() {
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            if self.coreDataExtension.userDetails.isEmpty == true {
+                self.loadPostsData()
+                self.stopLoading()
+                self.loadUsersData()
+                self.stopLoading()
+                self.setupTableView()
+                self.postTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            } else {
+                self.loadPostsData()
+                self.stopLoading()
+                self.loadUsersData()
+                self.stopLoading()
+                self.setupTableView()
+                self.postTableView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+  
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
@@ -52,7 +80,11 @@ class ViewController: LoadableViewController {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
             self.loadPostsData()
+            self.postTableView.reloadData()
             self.stopLoading()
+            DispatchQueue.main.async {
+                self.refreshControl.endRefreshing()
+            }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
             self.coreDataExtension.fetchPosts()
@@ -75,9 +107,12 @@ class ViewController: LoadableViewController {
                 do {
                     switch result {
                     case .success(let allData):
-                        self.coreDataExtension.savePosts(posts: allData)
-                        self.postTableView.reloadData()
-                        self.stopLoading()
+                        self.posts = allData
+                        if self.coreDataExtension.userDetails.isEmpty == true {
+                            self.coreDataExtension.savePosts(posts: allData)
+                        } else {
+                            self.posts = allData
+                        }
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
@@ -85,19 +120,49 @@ class ViewController: LoadableViewController {
             }
         })
     }
-}
+  
+    func loadUsersData() {
+            startLoading()
+            let url = EndPoints.usersEndpoint
+            Networking<[Users]>.loadData(urlString: url, completion: { result in
+                DispatchQueue.main.async {
+                    do {
+                        switch result {
+                        case .success(let allData):
+                            if self.coreDataExtension.userDetails.isEmpty == true {
+                                self.coreDataExtension.saveUserDetails(userDetails: allData)
+                            } else {
+                                self.users = allData
+                            }
+                        case .failure(let apiError):
+                            self.showAlert(errorMessage: apiError.localizedDescription)
+                        }
+                    }
+                }
+            })
+        }
+    }
 
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return coreDataExtension.userDetails.count
+        if coreDataExtension.userDetails.count == 0 {
+                  return users.count
+              } else {
+                  return coreDataExtension.userDetails.count
+              }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PostTableViewCell", for: indexPath)
         if let cell = cell as? PostTableViewCell {
-            cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "No Tittle")")
-            cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "No Name")")
+            if coreDataExtension.userDetails.count == 0 {
+                cell.setupTextUsers(name: "Name: \(users[indexPath.row].name )")
+                cell.setupTextPosts(title: "Title: \(posts[indexPath.row].title )")
+            } else {
+                cell.setupTextUsers(name: "Name: \(coreDataExtension.userDetails[indexPath.row].name ?? "Default name")")
+                cell.setupTextPosts(title: "Title: \(coreDataExtension.posts[indexPath.row].title ?? "Default title")")
+            }
             return cell
         } else {
             return cell
