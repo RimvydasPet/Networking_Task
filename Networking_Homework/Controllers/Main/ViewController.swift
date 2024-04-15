@@ -17,11 +17,11 @@ class ViewController: LoadableViewController {
     var users: [Users] = []
     var refreshControl = UIRefreshControl()
     var context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     @IBOutlet weak var postTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
@@ -37,7 +37,7 @@ class ViewController: LoadableViewController {
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
-    @objc func handleRefreshControl() {
+@objc func handleRefreshControl() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             if self.coreDataExtension.userDetails.isEmpty == true {
                 self.loadPostsData()
@@ -58,11 +58,21 @@ class ViewController: LoadableViewController {
             }
         }
     }
-    
+  
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
+    }
+    
+    @objc func handleRefreshControl() {
+            self.loadPostsData()
+            self.postTableView.reloadData()
+            self.stopLoading()
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                self.refreshControl.endRefreshing()
+            self.refreshControl.endRefreshing()
+        }
     }
     
     //MARK: - Alert
@@ -76,16 +86,13 @@ class ViewController: LoadableViewController {
                 self.refreshControl.endRefreshing()
             }
         }
-        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            self.coreDataExtension.fetchUserDetails()
             self.coreDataExtension.fetchPosts()
-            self.stopLoading()
-            DispatchQueue.main.async {
+            self.coreDataExtension.fetchUserDetails()
+            DispatchQueue.main.async() {
                 self.refreshControl.endRefreshing()
             }
         }
-        
         alertController.addAction(tryAgainAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
@@ -113,38 +120,37 @@ class ViewController: LoadableViewController {
             }
         })
     }
-    
+  
     func loadUsersData() {
-        startLoading()
-        let url = EndPoints.usersEndpoint
-        Networking<[Users]>.loadData(urlString: url, completion: { result in
-            DispatchQueue.main.async {
-                do {
-                    switch result {
-                    case .success(let allData):
-                        if self.coreDataExtension.userDetails.isEmpty == true {
-                            self.coreDataExtension.saveUserDetails(userDetails: allData)
-                        } else {
-                            self.users = allData
+            startLoading()
+            let url = EndPoints.usersEndpoint
+            Networking<[Users]>.loadData(urlString: url, completion: { result in
+                DispatchQueue.main.async {
+                    do {
+                        switch result {
+                        case .success(let allData):
+                            if self.coreDataExtension.userDetails.isEmpty == true {
+                                self.coreDataExtension.saveUserDetails(userDetails: allData)
+                            } else {
+                                self.users = allData
+                            }
+                        case .failure(let apiError):
+                            self.showAlert(errorMessage: apiError.localizedDescription)
                         }
-                    case .failure(let apiError):
-                        self.showAlert(errorMessage: apiError.localizedDescription)
                     }
                 }
-            }
-        })
+            })
+        }
     }
-    //MARK: - End of the class
-}
 
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if coreDataExtension.userDetails.count == 0 {
-            return users.count
-        } else {
-            return coreDataExtension.userDetails.count
-        }
+                  return users.count
+              } else {
+                  return coreDataExtension.userDetails.count
+              }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
