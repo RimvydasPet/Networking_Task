@@ -65,16 +65,6 @@ class ViewController: LoadableViewController {
         postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
     }
     
-    @objc func handleRefreshControl() {
-            self.loadPostsData()
-            self.postTableView.reloadData()
-            self.stopLoading()
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-                self.refreshControl.endRefreshing()
-            self.refreshControl.endRefreshing()
-        }
-    }
-    
     //MARK: - Alert
     func showAlert(errorMessage: String) {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
