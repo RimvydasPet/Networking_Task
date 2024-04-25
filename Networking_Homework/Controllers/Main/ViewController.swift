@@ -40,21 +40,9 @@ class ViewController: LoadableViewController {
 @objc func handleRefreshControl() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             if self.coreDataExtension.userDetails.isEmpty == true {
-                self.loadPostsData()
-                self.stopLoading()
-                self.loadUsersData()
-                self.stopLoading()
-                self.setupTableView()
-                self.postTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.StartAndStopLoadingFromCoreData()
             } else {
-                self.loadPostsData()
-                self.stopLoading()
-                self.loadUsersData()
-                self.stopLoading()
-                self.setupTableView()
-                self.postTableView.reloadData()
-                self.refreshControl.endRefreshing()
+                self.StartAndStopLoadingFromCoreData()
             }
         }
     }
@@ -64,6 +52,18 @@ class ViewController: LoadableViewController {
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
         postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
     }
+    
+    private func StartAndStopLoadingFromCoreData() {
+        self.loadPostsData()
+        self.stopLoading()
+        self.loadUsersData()
+        self.stopLoading()
+        self.setupTableView()
+        self.postTableView.reloadData()
+        self.refreshControl.endRefreshing()
+        
+    }
+    
     
     //MARK: - Alert
     func showAlert(errorMessage: String) {
@@ -89,47 +89,43 @@ class ViewController: LoadableViewController {
     }
     
     //MARK: - Load from API
-    func loadPostsData() {
+    func loadData<T: Codable>(endpoint: String, objectType: T.Type, saveBlock: @escaping ([T]) -> Void) {
         startLoading()
-        let url = EndPoints.postsEndpoint
-        Networking<[Posts]>.loadData(urlString: url, completion: { result in
+        let url = endpoint
+        Networking<[T]>.loadData(urlString: url) { result in
             DispatchQueue.main.async {
                 do {
                     switch result {
                     case .success(let allData):
-                        self.posts = allData
                         if self.coreDataExtension.userDetails.isEmpty == true {
-                            self.coreDataExtension.savePosts(posts: allData)
+                            saveBlock(allData)
                         } else {
-                            self.posts = allData
+                            if T.self == Posts.self {
+                                self.posts = allData as! [Posts]
+                            } else if T.self == Users.self {
+                                self.users = allData as! [Users]
+                            }
                         }
                     case .failure(let apiError):
                         self.showAlert(errorMessage: apiError.localizedDescription)
                     }
                 }
             }
-        })
+        }
     }
+    
+    func loadPostsData() {
+        loadData(endpoint: EndPoints.postsEndpoint, objectType: Posts.self) { [weak self] posts in
+                self?.posts = posts
+                self?.coreDataExtension.savePosts(posts: posts)
+            }
+        }
   
     func loadUsersData() {
-            startLoading()
-            let url = EndPoints.usersEndpoint
-            Networking<[Users]>.loadData(urlString: url, completion: { result in
-                DispatchQueue.main.async {
-                    do {
-                        switch result {
-                        case .success(let allData):
-                            if self.coreDataExtension.userDetails.isEmpty == true {
-                                self.coreDataExtension.saveUserDetails(userDetails: allData)
-                            } else {
-                                self.users = allData
-                            }
-                        case .failure(let apiError):
-                            self.showAlert(errorMessage: apiError.localizedDescription)
-                        }
-                    }
-                }
-            })
+        loadData(endpoint: EndPoints.usersEndpoint, objectType: Users.self) { [weak self] users in
+                self?.users = users
+                self?.coreDataExtension.saveUserDetails(userDetails: users)
+            }
         }
     }
 
