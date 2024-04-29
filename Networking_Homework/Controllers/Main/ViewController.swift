@@ -12,7 +12,6 @@ class ViewController: LoadableViewController {
     
     let postTableViewCell = PostTableViewCell()
     var coreDataExtension = CoreDataExtension()
-    
     var posts: [Posts] = []
     var users: [Users] = []
     var refreshControl = UIRefreshControl()
@@ -37,7 +36,7 @@ class ViewController: LoadableViewController {
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
-@objc func handleRefreshControl() {
+    @objc func handleRefreshControl() {
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             if self.coreDataExtension.userDetails.isEmpty == true {
                 self.StartAndStopLoadingFromCoreData()
@@ -46,7 +45,7 @@ class ViewController: LoadableViewController {
             }
         }
     }
-  
+    
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
@@ -63,7 +62,6 @@ class ViewController: LoadableViewController {
         self.refreshControl.endRefreshing()
         
     }
-    
     
     //MARK: - Alert
     func showAlert(errorMessage: String) {
@@ -116,27 +114,27 @@ class ViewController: LoadableViewController {
     
     func loadPostsData() {
         loadData(endpoint: EndPoints.postsEndpoint, objectType: Posts.self) { [weak self] posts in
-                self?.posts = posts
-                self?.coreDataExtension.savePosts(posts: posts)
-            }
-        }
-  
-    func loadUsersData() {
-        loadData(endpoint: EndPoints.usersEndpoint, objectType: Users.self) { [weak self] users in
-                self?.users = users
-                self?.coreDataExtension.saveUserDetails(userDetails: users)
-            }
+            self?.posts = posts
+            self?.coreDataExtension.savePosts(posts: posts)
         }
     }
+    
+    func loadUsersData() {
+        loadData(endpoint: EndPoints.usersEndpoint, objectType: Users.self) { [weak self] users in
+            self?.users = users
+            self?.coreDataExtension.saveUserDetails(userDetails: users)
+        }
+    }
+}
 
 //MARK: - Extensions
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if coreDataExtension.userDetails.count == 0 {
-                  return users.count
-              } else {
-                  return coreDataExtension.userDetails.count
-              }
+            return users.count
+        } else {
+            return coreDataExtension.userDetails.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

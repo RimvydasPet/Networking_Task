@@ -1,0 +1,35 @@
+{
+  "configurations" : [
+    {
+      "id" : "CC635E30-FE38-40C1-A1C3-91721AF6202B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "environmentVariableEntries" : [
+      {
+        "key" : "OS_ACTIVITY_MODE",
+        "value" : "disable"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Networking_Homework.xcodeproj",
+      "identifier" : "BD6004312AC32F00008011D1",
+      "name" : "Networking_Homework"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Networking_Homework.xcodeproj",
+        "identifier" : "BDE835532BDAE35600D18CE3",
+        "name" : "Networking_HomeworkTests"
+      }
+    }
+  ],
+  "version" : 1
+}

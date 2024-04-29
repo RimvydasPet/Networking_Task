@@ -47,9 +47,7 @@ class CoreDataExtension: UIViewController {
                    let username = userDetails.last?.username,
                    let email = userDetails.last?.email
             else { return }
-            postTableViewCell.loadTableViewCellLabel?.text = "\(id)"
             postTableViewCell.nameTableViewCellLabel?.text = "\(name)"
-            postTableViewCell.statusTableViewCellLabel?.text = username
             postTableViewCell.bodyTableViewCellLabel?.text = email
         } catch {
             print(error.localizedDescription)
@@ -88,9 +86,7 @@ class CoreDataExtension: UIViewController {
                    let title = posts.last?.title,
                    let body = posts.last?.body
             else { return }
-            postTableViewCell.loadTableViewCellLabel?.text = "\(userId)"
             postTableViewCell.nameTableViewCellLabel?.text = "\(id)"
-            postTableViewCell.statusTableViewCellLabel?.text = title
             postTableViewCell.bodyTableViewCellLabel?.text = body
         } catch {
             print(error.localizedDescription)
