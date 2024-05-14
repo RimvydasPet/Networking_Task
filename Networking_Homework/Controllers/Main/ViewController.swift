@@ -24,11 +24,12 @@ class ViewController: LoadableViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
-        postTableView.addSubview(refreshControl)
+//        postTableView.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.coreDataExtension.fetchUserDetails()
         self.setupTableView()
         DispatchQueue.main.async {
+            self.postTableView.addSubview(self.refreshControl)
             self.postTableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -49,16 +50,16 @@ class ViewController: LoadableViewController {
     private func setupTableView() {
         postTableView?.dataSource = self
         let nib = UINib(nibName: "PostTableViewCell", bundle: nil)
-        postTableView.register(nib, forCellReuseIdentifier: "PostTableViewCell")
+        postTableView?.register(nib, forCellReuseIdentifier: "PostTableViewCell")
     }
     
-    private func StartAndStopLoadingFromCoreData() {
+    public func StartAndStopLoadingFromCoreData() {
         self.loadPostsData()
         self.stopLoading()
         self.loadUsersData()
         self.stopLoading()
         self.setupTableView()
-        self.postTableView.reloadData()
+        self.postTableView?.reloadData()
         self.refreshControl.endRefreshing()
         
     }
@@ -68,7 +69,7 @@ class ViewController: LoadableViewController {
         let alertController = UIAlertController(title: "Error", message: errorMessage, preferredStyle: .alert)
         let tryAgainAction = UIAlertAction(title: "Try Again", style: .default) { (_) in
             self.loadPostsData()
-            self.postTableView.reloadData()
+            self.postTableView?.reloadData()
             self.stopLoading()
             DispatchQueue.main.async {
                 self.refreshControl.endRefreshing()
