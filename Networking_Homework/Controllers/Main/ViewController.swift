@@ -24,13 +24,12 @@ class ViewController: LoadableViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         context = appDelegate.persistentContainer.viewContext
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: UIControl.Event.valueChanged)
-//        postTableView.addSubview(refreshControl)
+        postTableView?.addSubview(refreshControl)
         self.coreDataExtension.fetchPosts()
         self.coreDataExtension.fetchUserDetails()
         self.setupTableView()
         DispatchQueue.main.async {
-            self.postTableView.addSubview(self.refreshControl)
-            self.postTableView.reloadData()
+            self.postTableView?.reloadData()
             self.refreshControl.endRefreshing()
         }
         //data base place:
